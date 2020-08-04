@@ -25,16 +25,27 @@ public class PalindromeON {
                 System.out.println(input + " is not a palindrome; "+(end-begin)+" ms O(n)");
             }
 
-            // O(n/2)
+            // O(n) + O(n/2)
             long begin2 = new Date().getTime();
             for(int i=0; i<10000000; i++) { // 10m load
                 isPal = isPalindromeOn2(input);
             }
             long end2 = new Date().getTime();
             if (isPal) {
-                System.out.println(input + " is a palindrome; "+(end2-begin2)+" ms O(n/2) (partial)");
+                System.out.println(input + " is a palindrome; "+(end2-begin2)+" ms O(n) + O(n/2)");
             } else {
-                System.out.println(input + " is not a palindrome; "+(end2-begin2)+" ms O(n/2) (partial)");
+                System.out.println(input + " is not a palindrome; "+(end2-begin2)+" ms O(n) + O(n/2)");
+            }
+            // O(n/2)
+            long begin3 = new Date().getTime();
+            for(int i=0; i<10000000; i++) { // 10m load
+                isPal = isPalindromeOn3(input);
+            }
+            long end3 = new Date().getTime();
+            if (isPal) {
+                System.out.println(input + " is a palindrome; "+(end3-begin3)+" ms O(n/2)");
+            } else {
+                System.out.println(input + " is not a palindrome; "+(end3-begin3)+" ms O(n/2)");
             }
         }
     }
@@ -56,7 +67,7 @@ public class PalindromeON {
         }
         String revStr = rev.toString();
         // O(n)
-        return revStr.equalsIgnoreCase(cleanedInputStr);
+        return revStr.equals(cleanedInputStr);
     }
 
     private static boolean isPalindromeOn2(String input) {
@@ -77,7 +88,20 @@ public class PalindromeON {
             revEnd.append(end.charAt(i));
         }
         String revEndStr = revEnd.toString();
-        return revEndStr.equalsIgnoreCase(begin);
+        return revEndStr.equals(begin);
+    }
+
+    private static boolean isPalindromeOn3(String input) {
+        int j=input.length()-1;
+        char[] ic = input.toCharArray();
+        for(int i=0; i<ic.length/2; i++) {
+            if(Character.getNumericValue(ic[i]) > 0) {
+                if(ic[i] != ic[j])
+                    return false;
+            }
+            j--;
+        }
+        return true;
     }
 
 }
